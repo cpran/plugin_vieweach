@@ -1,0 +1,120 @@
+# View each selected Sound (and TextGrid) object in turn
+#
+# The script allows for easy navigation between selected Sound
+# objects, which is particularly useful when comparing specific
+# features in each of them. If an equal number of TextGrid and
+# Sound objects have been selected, they will be paired by name
+# and viewed in unison.
+#
+# Written by Jose J. Atria (October 14, 2012)
+# Last revision: July 10, 2014)
+#
+# This script is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
+#
+# A copy of the GNU General Public License is available at
+# <http://www.gnu.org/licenses/>.
+
+include ../../plugin_selection/procedures/selection.proc
+include ../../plugin_strutils/procedures/extract_strings.proc
+
+procedure viewEach_cleanUp ()
+  removeObject: viewEachFromDisk.bases
+  if viewEachFromDisk.paired
+    removeObject: viewEachFromDisk.pairs
+  endif
+  viewEachFromDisk.i = viewEachFromDisk.n + 1
+endproc
+
+include ../procedures/view_each.proc
+
+procedure viewEachFromDisk (.file_list, .paired)
+
+  selectObject: .file_list
+  .n = Get number of strings
+
+  if .paired
+    .types = Copy: "types"
+    for .i to .n
+      .filename$ = Get string: .i
+      .dot = rindex(.filename$, ".")
+      .new_string$ = right$(.filename$, length(.filename$) - .dot)
+      .new_string$ = if .new_string$ = "wav" then "Sound" else .new_string$ fi
+      Set string: .i, .new_string$
+    endfor
+    .distribution = To Distributions
+    .table = To Table: "type"
+
+    if Object_'.table'.nrow = 2
+      .textgrid_row = Search column: "type", "TextGrid"
+      .sound_row    = Search column: "type", "Sound"
+
+      .textgrids = Object_'.table'[.textgrid_row, 2]
+      .sounds    = Object_'.table'[.sound_row, 2]
+
+      if .sounds = .textgrids
+        .paired = 1
+
+        selectObject: .file_list
+        @extractStrings("TextGrid$")
+        Rename: "pair_files"
+        .pairs = extractStrings.id
+
+        selectObject: .file_list
+        @extractStrings("wav$")
+        Rename: "base_files"
+        .bases = extractStrings.id
+
+        removeObject: .file_list
+      else
+        .paired = 0
+      endif
+    else
+      .paired = 0
+    endif
+    removeObject: .types, .distribution, .table
+  endif
+
+  if !.paired
+    .bases = .file_list
+  endif
+
+  selectObject: .bases
+  .n = Get number of strings
+
+  if !variableExists("viewEach.start_from")
+    viewEach.start_from = 1
+  endif
+  viewEach.start_from = if viewEach.start_from = undefined
+    ... then 1 else viewEach.start_from fi
+  .i = viewEach.start_from
+  while .i <= .n
+    selectObject: .bases
+    .base_filename$ = Get string: .i
+    .base           = Read from file: .base_filename$
+
+    if .paired
+      selectObject: .pairs
+      .pair_filename$ = Get string: .i
+      .pair           = Read from file: .pair_filename$
+    else
+      .pair = undefined
+    endif
+
+    @viewEach(.base, .pair, .i, .n)
+
+    if !viewEach_pause.next
+      # Pressed stop
+      @viewEach_cleanUp()
+    else
+      .i += viewEach_pause.next
+    endif
+
+    removeObject: .base
+    if .paired
+      removeObject: .pair
+    endif
+  endwhile
+endproc
