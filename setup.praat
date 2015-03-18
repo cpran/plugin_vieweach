@@ -19,10 +19,10 @@
 # runScript: "run_tests.praat"
 
 # Base menu
-Add menu command: "Objects", "Praat", "CPrAN",                 "",         0, ""
-Add menu command: "Objects", "Praat", "Vieweach",              "",         1, ""
-Add menu command: "Objects", "Praat", "View each (selected)",  "Vieweach", 2, "scripts/view_each.opened.praat"
-Add menu command: "Objects", "Praat", "View each (from disk)", "Vieweach", 2, "scripts/view_each.from_disk.praat"
+Add menu command: "Objects", "Praat", "vieweach", "CPrAN", 1, ""
+
+Add menu command: "Objects", "Praat", "View each (selected)",  "vieweach", 2, "scripts/view_each.opened.praat"
+Add menu command: "Objects", "Praat", "View each (from disk)", "vieweach", 2, "scripts/view_each.from_disk.praat"
 
 Add action command: "Sound", 0, "TextGrid", 0, "", 0, "View each as pairs", "", 0, "scripts/view_each.opened.praat"
 
