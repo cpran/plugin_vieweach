@@ -4,27 +4,27 @@ Homepage: https://gitlab.com/cpran/plugin_vieweach
 Version: 0.0.1
 Maintainer: José Joaquín Atria <jjatria@gmail.com>
 Depends:
-  - praat: 5.0.0+
-  - cpran/selection: 0.0.1+
-  - cpran/strutils: 0.0.1+
-  - cpran/utils: 0.0.1+
+  praat: 5.0.0+
+  cpran/selection: 0.0.1+
+  cpran/strutils: 0.0.1+
+  cpran/utils: 0.0.1+
 Recommends:
 License: GPL3
 Readme: readme.md
 Description:
-  - Short: a set of customizable procedures to iterate through sets of objects
-  - Long: >
-      One recurrent task in Praat is to iterate through a number of objects of
-      different types to examine them in detail, make manual editions, etc.
+  Short: a set of customizable procedures to iterate through sets of objects
+  Long: >
+    One recurrent task in Praat is to iterate through a number of objects of
+    different types to examine them in detail, make manual editions, etc.
 
-      This plugin provides commands to iterate through sets of objects opening
-      an editor to _view each_ object in turn. Hence the name. Thanks to the
-      selection management procedures provided by cpran/selection, the
-      iteration is unaffected by changes in the selection and even by the
-      removal of previously selected objects.
+    This plugin provides commands to iterate through sets of objects opening
+    an editor to _view each_ object in turn. Hence the name. Thanks to the
+    selection management procedures provided by cpran/selection, the
+    iteration is unaffected by changes in the selection and even by the
+    removal of previously selected objects.
 
-      The commands provided rely on a set of procedures that also expose a large
-      number of hooks to make it easier to customize the behaviour of the
-      iteration. This effectively gives a proficient programmer complete control
-      over what happens at every step of the iteration in a reliable and robust
-      way.
+    The commands provided rely on a set of procedures that also expose a large
+    number of hooks to make it easier to customize the behaviour of the
+    iteration. This effectively gives a proficient programmer complete control
+    over what happens at every step of the iteration in a reliable and robust
+    way.
