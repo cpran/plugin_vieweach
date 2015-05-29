@@ -1,13 +1,19 @@
-# View each selected Sound (and TextGrid) object in turn
+# View each selected object, pairing Sound and TextGrid objects
+# in turn if available
 #
-# The script allows for easy navigation between selected Sound
-# objects, which is particularly useful when comparing specific
-# features in each of them. If an equal number of TextGrid and
-# Sound objects have been selected, they will be paired by name
-# and viewed in unison.
+# The script allows for easy navigation between selected objects,
+# which is particularly useful when comparing specific features
+# in each of them. If both TextGrid and Sound objects have been
+# selected, they will be paired by name and viewed in unison.
+#
+# Pairing is done by @foreach(), which takes objects representing
+# sets of items and performs actions for corresponding objects in
+# each set. If the number of items in each set (ie. Sound and
+# TextGrid objects) is different, then the shorter list will loop
+# as many times as necessary to provide an entry for the longer list.
 #
 # Written by Jose J. Atria (October 14, 2012)
-# Last revision: July 10, 2014)
+# Last revision: May 29, 2015)
 #
 # This script is free software: you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -17,15 +23,31 @@
 # A copy of the GNU General Public License is available at
 # <http://www.gnu.org/licenses/>.
 
-include ../procedures/view_each.opened.proc
-# view_each.opened already includes the selection tools
+include ../procedures/view_each.proc
 
 @saveSelectionTable()
-.selection = saveSelectionTable.table
+original_selection = saveSelectionTable.table
 
-supported_objects$ = "AmplitudeTier Artword DurationTier FormantGrid IntensityTier LongSound Manipulation OTGrammar Pitch PitchTier PointProcess Sound Spectrogram Spectrum Strings Table TextGrid"
+sounds = numberOfSelected("Sound")
+textgrids = numberOfSelected("TextGrid")
 
-@refineToTypes (supported_objects$)
-@viewEachOpened()
-@restoreSavedSelection(.selection)
-removeObject: .selection
+if sounds and textgrids and sounds + textgrids = numberOfSelected()
+  paired = 1
+  selectObject: original_selection
+  sounds    = nowarn Extract rows where column (text): "type", "is equal to", "Sound"
+  selectObject: original_selection
+  textgrids = nowarn Extract rows where column (text): "type", "is equal to", "TextGrid"
+  selectObject: sounds, textgrids
+else
+  paired = 0
+  selectObject: original_selection
+endif
+
+@vieweach()
+
+if paired
+  removeObject: sounds, textgrids
+endif
+
+@restoreSavedSelection: original_selection
+removeObject: original_selection

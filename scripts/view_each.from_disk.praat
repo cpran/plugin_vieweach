@@ -1,13 +1,19 @@
-# View each selected Sound (and TextGrid) object in turn
+# View specified objects from disk, pairing Sound and TextGrid
+# objects in turn if available
 #
-# The script allows for easy navigation between selected Sound
-# objects, which is particularly useful when comparing specific
-# features in each of them. If an equal number of TextGrid and
-# Sound objects have been selected, they will be paired by name
-# and viewed in unison.
+# The script allows for easy navigation between selected objects,
+# which is particularly useful when comparing specific features
+# in each of them. If both TextGrid and Sound objects have been
+# selected, they will be paired by name and viewed in unison.
+#
+# Pairing is done by @foreach(), which takes objects representing
+# sets of items and performs actions for corresponding objects in
+# each set. If the number of items in each set (ie. Sound and
+# TextGrid objects) is different, then the shorter list will loop
+# as many times as necessary to provide an entry for the longer list.
 #
 # Written by Jose J. Atria (October 14, 2012)
-# Last revision: July 10, 2014)
+# Last revision: May 29, 2015)
 #
 # This script is free software: you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -17,25 +23,52 @@
 # A copy of the GNU General Public License is available at
 # <http://www.gnu.org/licenses/>.
 
-include ../../plugin_strutils/procedures/extract_strings.proc
+include ../procedures/view_each.proc
 include ../../plugin_utils/procedures/check_directory.proc
-include ../../plugin_vieweach/procedures/view_each.from_disk.proc
 include ../../plugin_strutils/procedures/file_list_full_path.proc
+include ../../plugin_strutils/procedures/extract_strings.proc
 
 form View each (from disk)...
   sentence Read_from
   sentence Filename_regex (wav|TextGrid)$
 endform
 
-@checkDirectory(read_from$, "Read files from...")
-read_from$ = checkDirectory.name$
+@checkDirectory: read_from$, "Read files from..."
+path$ = checkDirectory.name$
 
-@fileListFullPath("files", read_from$, "*", 0)
+@fileListFullPath: "files", path$, "*", 0
 files = fileListFullPath.id
 
-@extractStrings(filename_regex$)
+@extractStrings: filename_regex$
 removeObject: files
 files = extractStrings.id
-Rename: "bla"
 
-@viewEachFromDisk(files, 1)
+total_files = Get number of strings
+
+runScript: preferencesDirectory$ +
+  ... "/plugin_strutils/scripts/extract_strings.praat", "wav$"
+sounds = selected("Strings")
+total_sounds = Get number of strings
+
+selectObject: files
+runScript: preferencesDirectory$ +
+  ... "/plugin_strutils/scripts/extract_strings.praat", "TextGrid$"
+textgrids = selected("Strings")
+total_textgrids = Get number of strings
+
+if total_sounds and total_textgrids and
+    ... total_sounds + total_textgrids = total_files
+  paired = 1
+  selectObject: sounds, textgrids
+else
+  paired = 0
+  selectObject: files
+endif
+
+@vieweach()
+
+if paired
+  removeObject: sounds, textgrids
+endif
+
+removeObject: files
