@@ -17,7 +17,7 @@
 # A copy of the GNU General Public License is available at
 # <http://www.gnu.org/licenses/>.
 
-procedure foreach.action ()
+procedure for_each.action ()
   if numberOfSelected()
     @has_editor()
     if has_editor.editor
@@ -30,26 +30,26 @@ procedure foreach.action ()
       .name$ = mid$(.name$, rindex(.name$, " "), length(.name$))
 
       beginPause: "Viewing " + .name$ + " " +  "(" +
-        ... string$(foreach.item) + " of " +
-        ... string$(foreach.total_items) + ")"
+        ... string$(for_each.item) + " of " +
+        ... string$(for_each.total_items) + ")"
 
-      if foreach.item > 1
-        .button = endPause: "Stop", "Previous", if foreach.item = foreach.total_items then
+      if for_each.item > 1
+        .button = endPause: "Stop", "Previous", if for_each.item = for_each.total_items then
           ... "Finish" else "Next" fi, 3, 1
       else
-        .button = endPause: "Stop", if foreach.item = foreach.total_items then
+        .button = endPause: "Stop", if for_each.item = for_each.total_items then
           ... "Finish" else "Next" fi, 2, 1
       endif
 
       if .button = 1
         # Pressed stop
-        foreach.next = 0
-      elsif .button = 2 and foreach.item > 1
+        for_each.next = 0
+      elsif .button = 2 and for_each.item > 1
         # Pressed back
-        foreach.next = -1
+        for_each.next = -1
       else
         # Pressed forward
-        foreach.next = if foreach.item = foreach.total_items then 0 else 1 fi
+        for_each.next = if for_each.item = for_each.total_items then 0 else 1 fi
       endif
 
       nocheck editor: has_editor.editor
@@ -59,9 +59,9 @@ procedure foreach.action ()
   endif
 endproc
 
-include ../procedures/foreach.proc
-procedure vieweach ()
-  @foreach()
+include ../procedures/for_each.proc
+procedure view_each ()
+  @for_each()
 endproc
 
 procedure has_editor ()

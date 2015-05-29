@@ -5,22 +5,22 @@ endform
 @checkFilename: script_path$, "Select script to execute..."
 action$ = checkFilename.name$
 
-procedure foreach.before_iteration ()
+procedure for_each.before_iteration ()
   @createEmptySelectionTable()
   foreach.final_selection = selected()
 endproc
 
-procedure foreach.action ()
+procedure for_each.action ()
   runScript: action$
   for .i to numberOfSelected()
     @addToSelectionTable: foreach.final_selection, selected(.i)
   endfor
 endproc
 
-procedure foreach.finally ()
+procedure for_each.finally ()
   @restoreSavedSelection(foreach.final_selection)
   removeObject: foreach.final_selection
 endproc
 
-include ../procedures/foreach.proc
-@foreach()
+include ../procedures/for_each.proc
+@for_each()

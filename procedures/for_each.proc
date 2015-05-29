@@ -1,24 +1,24 @@
 include ../../plugin_selection/procedures/selection.proc
 include ../../plugin_utils/procedures/check_filename.proc
 
-procedure foreach.before_iteration ()
+procedure for_each.before_iteration ()
 endproc
 
-procedure foreach.at_begin_iteration ()
+procedure for_each.at_begin_iteration ()
 endproc
 
-procedure foreach.action ()
+procedure for_each.action ()
 endproc
 
-procedure foreach.at_end_iteration ()
+procedure for_each.at_end_iteration ()
 endproc
 
-procedure foreach.finally ()
-  selectObject: foreach.sets
-  runScript: foreach.selection_scripts$ + "restore_selection.praat"
+procedure for_each.finally ()
+  selectObject: for_each.sets
+  runScript: for_each.selection_scripts$ + "restore_selection.praat"
 endproc
 
-procedure foreach ()
+procedure for_each ()
   .selection_scripts$ = preferencesDirectory$ + "/plugin_selection/scripts/"
 
   .total_sets = numberOfSelected("Table") + numberOfSelected("Strings")
@@ -40,19 +40,19 @@ procedure foreach ()
   #   appendInfoLine: "There are ", .total_sets, " total sets of objects"
   #   appendInfoLine: "And up to ", .total_items, " to iterate upon"
 
-    @foreach.before_iteration()
+    @for_each.before_iteration()
 
     nocheck selectObject: undefined
 
-    if !variableExists("foreach.start_from")
-      foreach.start_from = 1
+    if !variableExists("for_each.start_from")
+      for_each.start_from = 1
     endif
-    foreach.start_from = if foreach.start_from = undefined
-      ... then 1 else foreach.start_from fi
-    .item = foreach.start_from
+    for_each.start_from = if for_each.start_from = undefined
+      ... then 1 else for_each.start_from fi
+    .item = for_each.start_from
     .next = 1
     while .item <= .total_items
-      @foreach.at_begin_iteration()
+      @for_each.at_begin_iteration()
 
       @createEmptySelectionTable()
       .selection = selected()
@@ -85,26 +85,26 @@ procedure foreach ()
       selectObject: .selection
       runScript: .selection_scripts$ + "restore_selection.praat"
 
-      @foreach.action()
+      @for_each.action()
 
       selectObject: .remove
       runScript: .selection_scripts$ + "restore_selection.praat"
       nocheck Remove
       removeObject: .selection, .remove
 
-      @foreach.at_end_iteration()
+      @for_each.at_end_iteration()
 
-      if !foreach.next
+      if !for_each.next
         goto FOREACH_END
       else
-        foreach.item += foreach.next
+        for_each.item += for_each.next
       endif
 
     endwhile
 
     label FOREACH_END
-    @foreach.finally()
-    removeObject: foreach.sets
+    @for_each.finally()
+    removeObject: for_each.sets
 
   endif
 endproc

@@ -65,7 +65,7 @@ else
   selectObject: files
 endif
 
-@vieweach()
+@view_each()
 
 if paired
   removeObject: sounds, textgrids
