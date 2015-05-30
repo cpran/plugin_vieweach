@@ -1,3 +1,5 @@
+include ../../plugin_utils/procedures/check_filename.proc
+
 form Execute for each...
   sentence Script_path 
 endform
