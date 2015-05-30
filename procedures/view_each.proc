@@ -29,9 +29,10 @@ procedure for_each.action ()
       .name$ = extractLine$(.editor$, "Editor name: ")
       .name$ = mid$(.name$, rindex(.name$, " "), length(.name$))
 
-      beginPause: "Viewing " + .name$ + " " +  "(" +
-        ... string$(for_each.item) + " of " +
-        ... string$(for_each.total_items) + ")"
+      beginPause: "Viewing "
+#       + .name$ + " " +  "(" +
+#         ... string$(for_each.item) + " of " +
+#         ... string$(for_each.total_items) + ")"
 
       if for_each.item > 1
         .button = endPause: "Stop", "Previous", if for_each.item = for_each.total_items then
@@ -67,8 +68,12 @@ endproc
 procedure has_editor ()
   .command$ = "View & Edit"
   @_try_editor: .command$
-  if '_try_editor.return'
+  if !'_try_editor.return'
     .command$ = "Edit"
+    @_try_editor: .command$
+  endif
+  if !'_try_editor.return'
+    .command$ = "View"
     @_try_editor: .command$
   endif
   .editor = '_try_editor.return'
@@ -76,11 +81,9 @@ endproc
 
 procedure _try_editor: .command$
   nocheck do(.command$)
-  for .i to numberOfSelected()
-    nocheck editor: selected(.i)
-      .editor$ = nocheck Editor info
-      nocheck Close
-    nocheck endeditor
-    .return = if .editor$ = "" then 0 else selected(.i) fi
-  endfor
+  nocheck editor: selected()
+    .editor$ = nocheck Editor info
+    nocheck Close
+  nocheck endeditor
+  .return = if .editor$ = "" then 0 else selected() fi
 endproc
