@@ -8,7 +8,7 @@ Depends:
   Plugins:
     selection: 0.0.1+
     strutils: 0.0.1+
-    utils: 0.0.1+
+    utils: 0.0.6+
 Recommends:
 License: GPL3
 Readme: readme.md
