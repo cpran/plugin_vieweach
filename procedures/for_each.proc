@@ -1,5 +1,4 @@
 include ../../plugin_selection/procedures/selection.proc
-include ../../plugin_utils/procedures/check_filename.proc
 
 procedure for_each.before_iteration ()
 endproc
@@ -15,7 +14,8 @@ endproc
 
 procedure for_each.finally ()
   selectObject: for_each.sets
-  runScript: for_each.selection_scripts$ + "restore_selection.praat"
+  runScript: for_each.selection_scripts$ +
+    ... "restore_selection.praat"
 endproc
 
 procedure for_each ()
@@ -37,9 +37,6 @@ procedure for_each ()
     endfor
     .total_items = .max_items
 
-  #   appendInfoLine: "There are ", .total_sets, " total sets of objects"
-  #   appendInfoLine: "And up to ", .total_items, " to iterate upon"
-
     @for_each.before_iteration()
 
     nocheck selectObject: undefined
@@ -59,8 +56,6 @@ procedure for_each ()
 
       @createEmptySelectionTable()
       .remove = selected()
-
-  #     appendInfoLine: "Processing selection number ", .item
 
       for .s to .total_sets
         .set = Object_'.sets'[.s, "id"]
