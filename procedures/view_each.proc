@@ -17,45 +17,97 @@
 # A copy of the GNU General Public License is available at
 # <http://www.gnu.org/licenses/>.
 
+procedure view_each.before_iteration ()
+endproc
+
+procedure view_each.at_begin_iteration ()
+endproc
+
+procedure view_each.at_begin_editor ()
+  .editor$ = Editor info
+  view_each.name$ = extractLine$(.editor$, "Editor name: ")
+  view_each.name$ = mid$(view_each.name$,
+    ... rindex(view_each.name$, " "), length(view_each.name$))
+endproc
+
+procedure view_each.at_end_editor ()
+  Close
+endproc
+
+procedure view_each.after_end_editor ()
+endproc
+
+procedure view_each.at_end_iteration ()
+endproc
+
+procedure view_each.finally ()
+endproc
+
+procedure view_each.pause ()
+  beginPause: "Viewing " + view_each.name$ + " " +  "(" +
+      ... string$(for_each.item) + " of " +
+      ... string$(for_each.total_items) + ")"
+
+  if for_each.item > 1
+    .button = endPause: "Stop", "Previous",
+      ... if for_each.item = for_each.total_items then
+      ... "Finish" else "Next" fi, 3, 1
+  else
+    .button = endPause: "Stop",
+      ... if for_each.item = for_each.total_items then
+      ... "Finish" else "Next" fi, 2, 1
+  endif
+
+  if .button = 1
+    # Pressed stop
+    for_each.next = 0
+  elsif .button = 2 and for_each.item > 1
+    # Pressed back
+    for_each.next = -1
+  else
+    # Pressed forward
+    for_each.next = if for_each.item = for_each.total_items then 0 else 1 fi
+  endif
+endproc
+
+procedure for_each.before_iteration ()
+  @view_each.before_iteration()
+endproc
+
+procedure for_each.at_begin_iteration ()
+  @view_each.at_begin_iteration()
+endproc
+
+procedure for_each.at_end_iteration ()
+  @view_each.at_end_iteration()
+endproc
+
+procedure for_each.finally ()
+  @view_each.finally()
+endproc
+
 procedure for_each.action ()
   if numberOfSelected()
     @has_editor()
     if has_editor.editor
       do(has_editor.command$)
       editor: has_editor.editor
-        .editor$ = Editor info
+        @view_each.at_begin_editor()
       endeditor
 
-      .name$ = extractLine$(.editor$, "Editor name: ")
-      .name$ = mid$(.name$, rindex(.name$, " "), length(.name$))
-
-      beginPause: "Viewing "
-#       + .name$ + " " +  "(" +
-#         ... string$(for_each.item) + " of " +
-#         ... string$(for_each.total_items) + ")"
-
-      if for_each.item > 1
-        .button = endPause: "Stop", "Previous", if for_each.item = for_each.total_items then
-          ... "Finish" else "Next" fi, 3, 1
-      else
-        .button = endPause: "Stop", if for_each.item = for_each.total_items then
-          ... "Finish" else "Next" fi, 2, 1
-      endif
-
-      if .button = 1
-        # Pressed stop
-        for_each.next = 0
-      elsif .button = 2 and for_each.item > 1
-        # Pressed back
-        for_each.next = -1
-      else
-        # Pressed forward
-        for_each.next = if for_each.item = for_each.total_items then 0 else 1 fi
-      endif
+      @view_each.pause()
 
       nocheck editor: has_editor.editor
-        nocheck Close
+        # Hook within editor, after the pause
+        @in_editor()
+        if in_editor.return
+          @view_each.at_end_editor()
+        endif
       nocheck endeditor
+
+      # Hook called after at_end_editor,
+      # which might not be in an editor
+      @view_each.after_end_editor()
     endif
   endif
 endproc
@@ -65,8 +117,15 @@ procedure view_each ()
   @for_each()
 endproc
 
+procedure in_editor ()
+  .info$ = nocheck Editor info
+  .return = if .info$ = "" then
+    ... 0 else extractNumber(.info$, "Editor name: ") fi
+endproc
+
 procedure has_editor ()
   .command$ = "View & Edit"
+  .editor = 0
   @_try_editor: .command$
   if !'_try_editor.return'
     .command$ = "Edit"
@@ -81,9 +140,11 @@ endproc
 
 procedure _try_editor: .command$
   nocheck do(.command$)
-  nocheck editor: selected()
-    .editor$ = nocheck Editor info
-    nocheck Close
-  nocheck endeditor
-  .return = if .editor$ = "" then 0 else selected() fi
+  for .i to numberOfSelected()
+    nocheck editor: selected(.i)
+      @in_editor()
+      nocheck Close
+    nocheck endeditor
+  endfor
+  .return = in_editor.return
 endproc
