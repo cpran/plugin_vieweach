@@ -89,7 +89,7 @@ appendFileLine: mktemp.return$ + "test.praat", "Copy: selected$(""Sound"")"
 appendFileLine: mktemp.return$ + "test.praat", "Reverse"
 runScript: preferencesDirectory$ + 
   ... "/plugin_vieweach/scripts/for_each.praat",
-  ... mktemp.return$ + "test.praat"
+  ... mktemp.return$ + "test.praat", "Use sets"
 total_iterations = numberOfSelected("Sound")
 Remove
 
