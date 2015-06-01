@@ -62,8 +62,8 @@ objects, then the script will automatically pair these for each iteration. The
 navigation over the objects is robust enough to support the deletion of objects
 with no ill effects.
 
-[`for_each.praat`]: blob/master/scripts/for_each.praat
-[`view_each.praat`]: blob/master/scripts/view_each.praat
+[`for_each.praat`]: scripts/for_each.praat
+[`view_each.praat`]: scripts/view_each.praat
 
 Customization
 -------------
