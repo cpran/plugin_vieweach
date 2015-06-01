@@ -38,7 +38,7 @@ Scripts
 -------
 
 These two set of procedures are further packaged into two corresponding scripts:
-[`for_each.praat`][] and [`view_each.praat`][].
+[`for_each.praat`][] and `view_each.praat`.
 
 The first one will execute a specified script during each iteration, and select
 all the objects created over those iterations at the end. The script also makes
@@ -56,14 +56,15 @@ with the instructions
 then the resulting selection after completion would be a copy of all the
 initially selected objects.
 
-The second will iterate over the selected objects and provide an editor for
-each, if applicable. If the selection includes only `Sound` and `TextGrid`
-objects, then the script will automatically pair these for each iteration. The
-navigation over the objects is robust enough to support the deletion of objects
-with no ill effects.
+The second comes in two flavours, and will iterate over either objects in the
+[Object list][] or [on disk][] and provide an editor for each, if applicable. If
+the selection includes only `Sound` and `TextGrid` objects, then the script will
+automatically pair these for each iteration. The navigation over the objects is
+robust enough to support the deletion of objects with no ill effects.
 
 [`for_each.praat`]: scripts/for_each.praat
-[`view_each.praat`]: scripts/view_each.praat
+[object list]: scripts/view_each.selected.praat
+[on disk]: scripts/view_each.from_disk.praat
 
 Customization
 -------------
