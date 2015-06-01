@@ -31,8 +31,8 @@ the specified (sets of) objects, opening the appropriate editor window for each
 when available.
 
 [`table`]: https://gitlab.com/cpran/plugin_selection#overview
-[`for_each.proc`]: blob/master/procedures/for_each.proc
-[`view_each.proc`]: blob/master/procedures/view_each.proc
+[`for_each.proc`]: procedures/for_each.proc
+[`view_each.proc`]: procedures/view_each.proc
 
 Scripts
 -------
