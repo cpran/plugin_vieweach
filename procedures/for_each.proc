@@ -90,14 +90,13 @@ procedure for_each ()
       @for_each.at_end_iteration()
 
       if !for_each.next
-        goto FOREACH_END
+        .item += .total_items
       else
         for_each.item += for_each.next
       endif
 
     endwhile
 
-    label FOREACH_END
     @for_each.finally()
     removeObject: for_each.sets
 
