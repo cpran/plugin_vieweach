@@ -8,6 +8,8 @@ form Execute for each...
     option Use sets
 endform
 
+selection$ = preferencesDirectory$ + "/plugin_selection/scripts/"
+
 @checkFilename: script_path$, "Select script to execute..."
 action$ = checkFilename.name$
 
@@ -15,8 +17,7 @@ if bundle$ = "Don't bundle"
   # Execute once each for every object,
   # regardless of what object it is.
 
-  runScript: preferencesDirectory$ +
-    ... "/plugin_selection/scripts/save_selection.praat"
+  runScript: selection$ + "save_selection.praat"
   selection = selected("Table")
 elsif bundle$ = "Per type"
   # Execute a number of times equal to the largest number of
@@ -24,20 +25,16 @@ elsif bundle$ = "Per type"
   # object of each selected type. If sets of objects are of
   # unequal length, the shorter set(s) will loop.
 
-  runScript: preferencesDirectory$ +
-    ... "/plugin_selection/scripts/save_selection.praat"
+  runScript: selection$ + "save_selection.praat"
   selection = selected("Table")
   objects = Collapse rows: "type", "n", "", "", "", ""
   for i to Object_'objects'.nrow
     type$ = Object_'objects'$[i, "type"]
     selectObject: selection
-    runScript: preferencesDirectory$ +
-      ... "/plugin_selection/scripts/restore_selection.praat"
-    runScript: preferencesDirectory$ +
-      ... "/plugin_selection/scripts/select_one_type.praat",
+    runScript: selection$ + "restore_selection.praat"
+    runScript: selection$ + "select_one_type.praat",
       ... type$, "yes"
-    runScript: preferencesDirectory$ +
-      ... "/plugin_selection/scripts/save_selection.praat"
+    runScript: selection$ + "save_selection.praat"
     set[i] = selected("Table")
     Rename: type$
   endfor
@@ -45,7 +42,6 @@ elsif bundle$ = "Per type"
   for i to Object_'objects'.nrow
     plusObject: set[i]
   endfor
-  pause
 elsif bundle$ = "Use sets"
   # Like with "Per type", but without automatic bundling:
   # You must provide the sets, either as selection tables, or as
