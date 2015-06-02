@@ -27,6 +27,9 @@ include ../procedures/view_each.proc
 
 @saveSelectionTable()
 original_selection = saveSelectionTable.table
+selectObject: original_selection
+Rename: "original_selection"
+@restoreSavedSelection: original_selection
 
 sounds = numberOfSelected("Sound")
 textgrids = numberOfSelected("TextGrid")

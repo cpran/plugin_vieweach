@@ -26,6 +26,7 @@ procedure for_each ()
   if .total_sets
     runScript: .selection_scripts$ + "save_selection.praat"
     .sets = selected("Table")
+    Rename: "foreach_sets"
 
     .max_items = 0
     for .set to .total_sets
@@ -37,8 +38,6 @@ procedure for_each ()
     endfor
     .total_items = .max_items
 
-    @for_each.before_iteration()
-
     nocheck selectObject: undefined
 
     if !variableExists("for_each.start_from")
@@ -48,14 +47,18 @@ procedure for_each ()
       ... then 1 else for_each.start_from fi
     .item = for_each.start_from
     .next = 1
+
+    @for_each.before_iteration()
     while .item <= .total_items
       @for_each.at_begin_iteration()
 
       @createEmptySelectionTable()
       .selection = selected()
+      Rename: "foreach_selection"
 
       @createEmptySelectionTable()
       .remove = selected()
+      Rename: "foreach_remove"
 
       for .s to .total_sets
         .set = Object_'.sets'[.s, "id"]
@@ -94,7 +97,6 @@ procedure for_each ()
       else
         for_each.item += for_each.next
       endif
-
     endwhile
 
     @for_each.finally()

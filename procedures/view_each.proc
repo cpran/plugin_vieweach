@@ -17,10 +17,14 @@
 # A copy of the GNU General Public License is available at
 # <http://www.gnu.org/licenses/>.
 
+
 procedure view_each.before_iteration ()
 endproc
 
 procedure view_each.at_begin_iteration ()
+endproc
+
+procedure view_each.before_editor ()
 endproc
 
 procedure view_each.at_begin_editor ()
@@ -34,7 +38,10 @@ procedure view_each.at_end_editor ()
   Close
 endproc
 
-procedure view_each.after_end_editor ()
+procedure view_each.after_editor ()
+endproc
+
+procedure view_each.no_editor ()
 endproc
 
 procedure view_each.at_end_iteration ()
@@ -90,6 +97,10 @@ procedure for_each.action ()
   if numberOfSelected()
     @has_editor()
     if has_editor.editor
+
+      # Hook called before editor is opened
+      @view_each.before_editor()
+
       do(has_editor.command$)
       editor: has_editor.editor
         @view_each.at_begin_editor()
@@ -107,7 +118,10 @@ procedure for_each.action ()
 
       # Hook called after at_end_editor,
       # which might not be in an editor
-      @view_each.after_end_editor()
+      @view_each.after_editor()
+    else
+      # Hook called when no editor is available
+      @view_each.no_editor()
     endif
   endif
 endproc
@@ -145,6 +159,9 @@ procedure _try_editor: .command$
       @in_editor()
       nocheck Close
     nocheck endeditor
+    if in_editor.return
+      .i += numberOfSelected()
+    endif
   endfor
   .return = in_editor.return
 endproc
