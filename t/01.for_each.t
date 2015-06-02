@@ -96,6 +96,7 @@ Remove
 @ok_formula: "total_iterations = total_sounds",
   ... "good iteration from script"
 
+deleteFile: mktemp.return$ + "test.praat"
 deleteFile: mktemp.return$
 
 selectObject: sounds
