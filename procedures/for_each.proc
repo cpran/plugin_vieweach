@@ -49,36 +49,20 @@ procedure for_each ()
     .next = 1
 
     @for_each.before_iteration()
-    while .item <= .total_items
+    while .item > 0 and .item <= .total_items
       @for_each.at_begin_iteration()
 
       @createEmptySelectionTable()
-      .selection = selected()
+      .selection = createEmptySelectionTable.table
+      selectObject: .selection
       Rename: "foreach_selection"
 
       @createEmptySelectionTable()
-      .remove = selected()
+      .remove = createEmptySelectionTable.table
+      selectObject: .remove
       Rename: "foreach_remove"
 
-      for .s to .total_sets
-        .set = Object_'.sets'[.s, "id"]
-        .type$ = Object_'.sets'$[.s, "type"]
-        selectObject: .set
-        .items = do("Get number of " +
-          ... if .type$ = "Table" then "rows" else "strings" fi)
-
-        .i = ((.item - 1) mod .items) + 1
-        if .type$ = "Table"
-          .id = Object_'.set'[.i, "id"]
-        else
-          selectObject: .set
-          .filename$ = Get string: .i
-          .id = Read from file: .filename$
-
-          @addToSelectionTable: .remove, .id
-        endif
-        @addToSelectionTable: .selection, .id
-      endfor
+      @for_each._select()
 
       selectObject: .selection
       runScript: .selection_scripts$ + "restore_selection.praat"
@@ -103,4 +87,26 @@ procedure for_each ()
     removeObject: for_each.sets
 
   endif
+endproc
+
+procedure for_each._select ()
+  for .s to for_each.total_sets
+    .set = Object_'for_each.sets'[.s, "id"]
+    .type$ = Object_'for_each.sets'$[.s, "type"]
+    selectObject: .set
+    .items = do("Get number of " +
+      ... if .type$ = "Table" then "rows" else "strings" fi)
+
+    .i = ((for_each.item - 1) mod .items) + 1
+    if .type$ = "Table"
+      .id = Object_'.set'[.i, "id"]
+    else
+      selectObject: .set
+      .filename$ = Get string: .i
+      .id = Read from file: .filename$
+
+      @addToSelectionTable: for_each.remove, .id
+    endif
+    @addToSelectionTable: for_each.selection, .id
+  endfor
 endproc

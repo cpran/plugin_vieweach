@@ -50,7 +50,7 @@ endif
 
 procedure for_each.before_iteration ()
   @createEmptySelectionTable()
-  foreach.final_selection = selected()
+  foreach.final_selection = createEmptySelectionTable.table
 endproc
 
 procedure for_each.action ()
