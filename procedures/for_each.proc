@@ -36,20 +36,22 @@ procedure for_each ()
         ... if .type$ = "Table" then "rows" else "strings" fi)
       .max_items = if .items > .max_items then .items else .max_items fi
     endfor
-    .total_items = .max_items
+    .last = .max_items
+    .total_items = .last       ; For backwards compatibility
 
     nocheck selectObject: undefined
 
     if !variableExists("for_each.start_from")
-      for_each.start_from = 1
+      .start_from = 1
     endif
-    for_each.start_from = if for_each.start_from = undefined
-      ... then 1 else for_each.start_from fi
-    .item = for_each.start_from
+    .start_from = if .start_from = undefined then 1 else .start_from fi
+    .current = .start_from
+    .item = .current           ; For backwards compatibility
     .next = 1
 
     @for_each.before_iteration()
-    while .item > 0 and .item <= .total_items
+    while .current > 0 and .current <= .total_items
+      .item = .current         ; For backwards compatibility
       @for_each.at_begin_iteration()
 
       @createEmptySelectionTable()
@@ -76,15 +78,16 @@ procedure for_each ()
 
       @for_each.at_end_iteration()
 
-      if !for_each.next
-        .item += .total_items
+      if !.next
+        .current += .last
       else
-        for_each.item += for_each.next
+        .current += .next
       endif
+
     endwhile
 
     @for_each.finally()
-    removeObject: for_each.sets
+    removeObject: .sets
 
   endif
 endproc
@@ -97,7 +100,7 @@ procedure for_each._select ()
     .items = do("Get number of " +
       ... if .type$ = "Table" then "rows" else "strings" fi)
 
-    .i = ((for_each.item - 1) mod .items) + 1
+    .i = ((for_each.current - 1) mod .items) + 1
     if .type$ = "Table"
       .id = Object_'.set'[.i, "id"]
     else
