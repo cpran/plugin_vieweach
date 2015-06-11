@@ -102,7 +102,8 @@ procedure for_each.action ()
       @view_each.before_editor()
 
       do(has_editor.command$)
-      editor: has_editor.editor
+      editor: if has_editor.editor > 0 then
+        ... has_editor.editor else has_editor.editor$ fi
         @view_each.at_begin_editor()
       endeditor
 
@@ -111,7 +112,7 @@ procedure for_each.action ()
       nocheck editor: has_editor.editor
         # Hook within editor, after the pause
         @in_editor()
-        if in_editor.return
+        if in_editor.return != undefined and in_editor.return
           @view_each.at_end_editor()
         endif
       nocheck endeditor
@@ -134,7 +135,9 @@ endproc
 procedure in_editor ()
   .info$ = nocheck Editor info
   .return = if .info$ = "" then
-    ... 0 else extractNumber(.info$, "Editor name: ") fi
+    ...  0 else extractNumber(.info$, "Editor name: ") fi
+  .return = if .return == undefined then -1 else .return fi
+  .return$ = extractLine$(extractLine$(.info$, "Editor name: "), " ")
 endproc
 
 procedure has_editor ()
@@ -149,7 +152,8 @@ procedure has_editor ()
     .command$ = "View"
     @_try_editor: .command$
   endif
-  .editor = '_try_editor.return'
+  .editor  = '_try_editor.return'
+  .editor$ = "'_try_editor.return$'"
 endproc
 
 procedure _try_editor: .command$
@@ -163,5 +167,6 @@ procedure _try_editor: .command$
       .i += numberOfSelected()
     endif
   endfor
-  .return = in_editor.return
+  .return  = in_editor.return
+  .return$ = in_editor.return$
 endproc
