@@ -15,7 +15,6 @@ Run tests:
   - cp -fa ../plugin_selection  ~/.praat-dir/plugin_selection
   - cp -fa ../plugin_testsimple ~/.praat-dir/plugin_testsimple
   - cp -fa .                    ~/.praat-dir/plugin_vieweach
-  - cp -fa .                    ../plugin_vieweach
   - # Run tests
   - prove -v --exec "praat"
   - # Clear workspace
@@ -28,4 +27,3 @@ Run tests:
     - cpran
   except:
   - tags
-  
