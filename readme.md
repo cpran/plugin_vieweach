@@ -1,4 +1,4 @@
-vieweach
+vieweach [![build badge][badge]][build]
 ========
 
 Description
@@ -79,3 +79,6 @@ Requirements
 * [selection](https://gitlab.com/cpran/plugin_selection)
 * [strutils](https://gitlab.com/cpran/plugin_strutils)
 * [utils](https://gitlab.com/cpran/plugin_utils)
+
+[badge]: https://ci.gitlab.com/projects/3262/status.png?ref=master
+[build]: https://ci.gitlab.com/projects/3262
