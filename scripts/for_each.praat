@@ -8,7 +8,7 @@ form Execute for each...
     option Use sets
 endform
 
-selection$ = preferencesDirectory$ + "/plugin_selection/scripts/"
+selection$ = preferencesDirectory$ - "con" + "/plugin_selection/scripts/"
 
 @checkFilename: script_path$, "Select script to execute..."
 action$ = checkFilename.name$

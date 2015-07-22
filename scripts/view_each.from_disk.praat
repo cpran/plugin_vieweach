@@ -45,13 +45,13 @@ files = extractStrings.id
 
 total_files = Get number of strings
 
-runScript: preferencesDirectory$ +
+runScript: preferencesDirectory$ - "con" +
   ... "/plugin_strutils/scripts/extract_strings.praat", "wav$"
 sounds = selected("Strings")
 total_sounds = Get number of strings
 
 selectObject: files
-runScript: preferencesDirectory$ +
+runScript: preferencesDirectory$ - "con" +
   ... "/plugin_strutils/scripts/extract_strings.praat", "TextGrid$"
 textgrids = selected("Strings")
 total_textgrids = Get number of strings

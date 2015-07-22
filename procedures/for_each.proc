@@ -19,7 +19,7 @@ procedure for_each.finally ()
 endproc
 
 procedure for_each ()
-  .selection_scripts$ = preferencesDirectory$ + "/plugin_selection/scripts/"
+  .selection_scripts$ = preferencesDirectory$ - "con" + "/plugin_selection/scripts/"
 
   .total_sets = numberOfSelected("Table") + numberOfSelected("Strings")
 
