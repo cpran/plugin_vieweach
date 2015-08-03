@@ -102,8 +102,7 @@ procedure for_each.action ()
       @view_each.before_editor()
 
       do(has_editor.command$)
-      editor: if has_editor.editor > 0 then
-        ... has_editor.editor else has_editor.editor$ fi
+      editor: has_editor.editor$
         @view_each.at_begin_editor()
       endeditor
 
