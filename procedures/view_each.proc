@@ -108,7 +108,7 @@ procedure for_each.action ()
 
       @view_each.pause()
 
-      nocheck editor: has_editor.editor
+      nocheck editor: has_editor.editor$
         # Hook within editor, after the pause
         @in_editor()
         if in_editor.return != undefined and in_editor.return
@@ -158,7 +158,7 @@ endproc
 procedure _try_editor: .command$
   nocheck do(.command$)
   for .i to numberOfSelected()
-    nocheck editor: selected(.i)
+    nocheck editor: selected$(.i)
       @in_editor()
       nocheck Close
     nocheck endeditor
