@@ -126,7 +126,7 @@ procedure for_each.action ()
   endif
 endproc
 
-include ../procedures/for_each.proc
+include ../../plugin_vieweach/procedures/for_each.proc
 procedure view_each ()
   @for_each()
 endproc
