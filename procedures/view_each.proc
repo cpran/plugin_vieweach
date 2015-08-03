@@ -50,6 +50,10 @@ endproc
 procedure view_each.finally ()
 endproc
 
+procedure view_each.clean_exit: .message$
+  @for_each.clean_exit: .message$
+endproc
+
 procedure view_each.pause ()
   beginPause: "Viewing " + view_each.name$ + " " +  "(" +
       ... string$(for_each.item) + " of " +

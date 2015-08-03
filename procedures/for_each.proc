@@ -113,3 +113,10 @@ procedure for_each._select ()
     @addToSelectionTable: for_each.selection, .id
   endfor
 endproc
+
+procedure for_each.clean_exit (.message$)
+  nocheck removeObject: for_each.sets
+  nocheck removeObject: for_each.selection
+  nocheck removeObject: for_each.remove
+  exitScript: .message$ + newline$
+endproc
