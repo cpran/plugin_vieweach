@@ -164,7 +164,9 @@ procedure _try_editor: .command$
   for .i to numberOfSelected()
     nocheck editor: selected$(.i)
       @in_editor()
-      nocheck Close
+      if in_editor.return
+        Close
+      endif
     nocheck endeditor
     if in_editor.return
       .i += numberOfSelected()
