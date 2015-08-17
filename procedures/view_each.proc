@@ -35,13 +35,7 @@ procedure view_each.at_begin_editor ()
 endproc
 
 procedure view_each.at_end_editor ()
-  # NOTE (jja) This should not cause any problems, because
-  #            it is called within an editor, but even with
-  #            `nocheck`, this causes Praat on Mac (up to
-  #            5.4.15 at least) to crash. Commented out since
-  #            the object is removed anyway, which closes the
-  #            editor, but it is not pretty.
-  # Close
+  Close
 endproc
 
 procedure view_each.after_editor ()

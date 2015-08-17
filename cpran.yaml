@@ -1,7 +1,7 @@
 ---
 Plugin: vieweach
 Homepage: https://gitlab.com/cpran/plugin_vieweach
-Version: 0.0.12
+Version: 0.0.13
 Maintainer: José Joaquín Atria <jjatria@gmail.com>
 Depends:
   praat: 5.0.0+
@@ -29,3 +29,7 @@ Description:
     iteration. This effectively gives a proficient programmer complete control
     over what happens at every step of the iteration in a reliable and robust
     way.
+
+    Note: the "View each" commands do not work properly on Praat versions
+    earlier than 5.4.16 for Mac.
+
