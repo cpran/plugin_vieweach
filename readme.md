@@ -1,6 +1,10 @@
 vieweach [![build badge][badge]][build]
 ========
 
+**See [the wiki][] for the complete documentation**
+
+[the wiki]: https://gitlab.com/cpran/plugin_vieweach/wikis/home
+
 Description
 -----------
 
