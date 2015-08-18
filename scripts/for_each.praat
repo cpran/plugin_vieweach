@@ -65,7 +65,7 @@ procedure for_each.finally ()
   removeObject: foreach.final_selection
 endproc
 
-include ../procedures/for_each.proc
+include ../../plugin_vieweach/procedures/for_each.proc
 @for_each()
 
 if bundle$ = "Don't bundle"

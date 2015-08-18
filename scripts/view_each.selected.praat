@@ -23,7 +23,7 @@
 # A copy of the GNU General Public License is available at
 # <http://www.gnu.org/licenses/>.
 
-include ../procedures/view_each.proc
+include ../../plugin_vieweach/procedures/view_each.proc
 
 @saveSelectionTable()
 original_selection = saveSelectionTable.table

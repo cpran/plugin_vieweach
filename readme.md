@@ -38,7 +38,7 @@ Scripts
 -------
 
 These two set of procedures are further packaged into two corresponding scripts:
-[`for_each.praat`][] and `view_each.praat`.
+[`for_each.praat`][] and [`view_each.praat`][].
 
 The first one will execute a specified script during each iteration, and select
 all the objects created over those iterations at the end. The script also makes
@@ -63,6 +63,7 @@ automatically pair these for each iteration. The navigation over the objects is
 robust enough to support the deletion of objects with no ill effects.
 
 [`for_each.praat`]: scripts/for_each.praat
+[`view_each.praat`]: scripts/view_each.praat
 [object list]: scripts/view_each.selected.praat
 [on disk]: scripts/view_each.from_disk.praat
 
@@ -70,8 +71,9 @@ Customization
 -------------
 
 The provided scripts and the tests provide a good example of the versatility
-made possible thanks to procedure redefinition. Take a look, and start using
-these in your own scripts!
+made possible thanks to procedure redefinition. Take a look at the code for
+ideas, or visit the wiki for the full documentation of the available hooks and
+start writing your own scripts!
 
 Requirements
 ------------

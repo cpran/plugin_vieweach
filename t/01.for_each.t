@@ -31,7 +31,7 @@ procedure for_each.action ()
   total_iterations += if .good then 1 else 0 fi
 endproc
 
-include ../procedures/for_each.proc
+include ../../plugin_vieweach/procedures/for_each.proc
 selectObject: sounds, textgrids
 @for_each()
 
