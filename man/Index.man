@@ -1,0 +1,29 @@
+ManPagesTextFile
+"vieweach" "jjatria" 20150818 0
+
+<intro> "The $$vieweach$ plugin provides features for iterating through arbitrarily complex @@Defining sets|sets of objects@. They are provided both as procedures, to make it easier to write scripts that use those iterative features, and as scripts, to encapsulate the most commonly needed applications."
+
+<normal> "The procedures are written in such a way that their behaviour can be almost completely redefined by means of @@procedure predefinition@, which is a way to implement something akin to code hooks in Praat."
+
+<normal> "In simple terms, this means that the code that gets executed at specific times during the iteration are designed to be modified. This makes the procedures incredibly versatile."
+
+<entry> "Procedures"
+
+<normal> "The first set of procedures (@@for_each (procedure)|$$for_each.proc$@) defines the core iterative features, which uses Table and Strings objects to represent sets of objects to iterate over. This makes it possible to seamlessly iterate over objects that reside in the Object list, on disk, or in a combination of both."
+
+<normal> "The second set of procedures (@@view_each (procedure)|$$view_each.proc$@) demonstrates one possible application of $$for_each$ to allow for easy navigation both back and forth over the specified (sets of) objects, opening the appropriate editor window for each when available."
+
+<entry> "Scripts"
+
+<normal> "These two set of procedures are further packaged into two corresponding scripts: @@Execute for each...|$$for_each.praat$@ and @@View each (selected)|$$view_each.praat$@."
+
+<normal> "The first one will execute a specified script during each iteration, and select all the objects created over those iterations at the end. The script also makes it possible to specify whether the iteration should be done directly over the selected objects, by selecting one object per type for each iteration, or by using the selected objects (either Table or Strings objects) as sets of objects. This is accessible through the GUI via the $$Execute for each...$ command."
+
+<normal> "As an example, if told to iterate over the selected objects, and given a script with the instructions"
+
+<code> "name\$  = extractWord\$ (selected\$ (), "" "")"
+<code> "Copy: name\$ "
+
+<normal> "then the resulting selection after completion would be a copy of all the initially selected objects."
+
+<normal> "The second comes in two flavours, and will iterate over either objects @@View each (selected)|in the Object list@ or @@View each (from disk)...|on disk@ and provide an editor for each, if applicable. If the selection includes only Sound and TextGrid objects, then the script will automatically pair these for each iteration. The navigation over the objects is robust enough to support the deletion of objects with no ill effects."

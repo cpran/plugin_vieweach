@@ -1,0 +1,83 @@
+ManPagesTextFile
+"for_each (procedure)" "jjatria" 20150818 0
+
+<normal> "$for_each implements a general purpose, robust, and highly customisable iterator for Praat objects. The iteration is run over @@Defining sets|sets of objects@ that exist either in the Object list, in disk, or in a combination of both."
+
+<normal> "The customisation is done via @@procedure predefinition@. See below for a list of the individual predefinable procedures and what they mean."
+
+<normal> "Note: as far as Praat is concerned, ## there is no difference between what are here called ""procedures"" and ""hooks""#. The only difference is that the latter are designed to be overwritten, while the former are designed to be used as they are, but the user is free to ignore this (at their own risk)."
+
+<entry> "Variables"
+
+<list_item> "$$for_each.current$"
+
+<definition> "The number of this particular iteration, from 1 to $$.last$."
+
+<list_item> "$$for_each.last$"
+
+<definition> "The total number of iterations; the number of items in the largest set."
+
+<list_item> "$$for_each.next$"
+
+<definition> "A variable specifying the what the next iteration will be. If 0, iteration stops. If non-zero, the value is added (or subtracted) to $$.current$ to specify what the next item will be."
+
+<list_item> "$$for_each.selection$"
+
+<definition> "The id of a selection table specifying the selection for the current iteration."
+
+<list_item> "$$for_each.sets$"
+
+<definition> "The id of the object representing the %%set of sets% of objects the iterator is looping over."
+
+<list_item> "$$for_each.total_sets$"
+
+<definition> "The number of sets that the iterator is running over; the number of selected objects when $for_each was run."
+
+<entry> "Procedures"
+
+<list_item> "$$for_each$"
+
+<definition> "The main iterating procedure, when called sets the iterations in motion. By the time it is called, selected objects need to be objects @@defining sets@."
+
+<list_item> "$$for_each.clean_exit (.message\$ )$"
+
+<definition> "A convenience function, this is not called by default, but is made available so that the user can establish a clean way to stop the iterator if need be. By default, it attempts to restore the workspace to the state before execution, and exits with the specified message. The default value is as follows:"
+
+<code> "procedure for_each.clean_exit (.message\$ )"
+<code> "  nocheck removeObject: for_each.sets"
+<code> "  nocheck removeObject: for_each.selection"
+<code> "  nocheck removeObject: for_each.remove"
+<code> "  exitScript: .message\$  + newline\$ "
+<code> "endproc"
+
+<list_item> "$$for_each._select$"
+
+<definition> "Used mainly for internal purposes, this procedure makes a selection table identifying the objects that are active for the current iteration. It does not select these objects. The id of that selection table is stored in $$for_each.selection$."
+
+<entry> "Hooks"
+
+<list_item> "$$for_each.before_iteration$"
+
+<definition> "Called right before the beginning of the looping block. When this procedure is called, Praat knows about the number of sets to iterate over, as well as the number of total iterations to run. If a starting point has been specified, this is also known. There is no active selection."
+
+<list_item> "$$for_each.at_begin_iteration$"
+
+<definition> "Called at the beginning of each iteration, before the selection has been made. By default, no selection is available."
+
+<list_item> "$$for_each.action$"
+
+<definition> "Called for each iteration, after the selection has been made."
+
+<list_item> "$$for_each.at_end_iteration$"
+
+<definition> "Called at the beginning of each iteration, after the selection has been cleared. This is the last piece of code to be read before reading the contents of $$for_each.next$, which defines the state of the next iteration."
+
+<list_item> "$for_each.finally"
+
+<definition> "Called after execution has left the iterator, before complete clean-up is done. This procedure does not have an empty default, so care should be taken when predefining it. By default, it makes the iterator restore the selection of sets of objects. The default definition is as follows:"
+
+<code> "procedure for_each.finally ()"
+<code> "  selectObject: for_each.sets"
+<code> "  runScript: for_each.selection_scripts\$  +"
+<code> "    ... ""restore_selection.praat"""
+<code> "endproc"

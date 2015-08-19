@@ -20,6 +20,7 @@
 
 # Base menu
 nocheck Add menu command: "Objects", "Praat", "vieweach", "CPrAN", 1, ""
+nocheck Add menu command: "Objects", "Help",  "vieweach", "CPrAN", 1, "man/open.praat"
 
 nocheck Add menu command: "Objects", "Praat", "Execute for each...",   "vieweach", 2, "scripts/for_each.praat"
 nocheck Add menu command: "Objects", "Praat", "View each (selected)",  "vieweach", 2, "scripts/view_each.selected.praat"

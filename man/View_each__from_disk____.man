@@ -1,0 +1,16 @@
+ManPagesTextFile
+"View each (from disk)..." "jjatria" 20150818 0
+
+<normal> "This command is provided by $$vieweach$ and accessible through the GUI via $$Praat > CPrAN > vieweach > View each (from disk)...$."
+
+<normal> "When called, the script takes two arguments:"
+
+<list_item> "The path to a directory on disk from where to read objects"
+
+<list_item> "A regular expression to match file names"
+
+<intro> "Upon submitting the form, a @@Defining sets|set@ with all the matching filenames is generated and passed to @@view_each (procedure)|$view_each@ to start a wizard that iterates over the items in the set. A pause menu will allow the user to move forward or backward (if possible) or to interrupt the wizard."
+
+<normal> "The wizard uses the procedures from $$view_each$ to implement the iteration, which makes the engine very robust. While the wizard is running the user is free to change the active selection, open and close other editors (or indeed the active one), and even remove the selected objects from the list."
+
+<normal> "This robustness makes this script particularly useful for quick visual exploration of a number of different objects."

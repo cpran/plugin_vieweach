@@ -1,0 +1,26 @@
+ManPagesTextFile
+"Execute for each..." "jjatria" 20150818 0
+
+<normal> "This command is provided by $$vieweach$ and accessible through the GUI via $$Praat > CPrAN > vieweach > Execute for each...$."
+
+<normal> "When called, the script takes two arguments:"
+
+<list_item> "The path to a script on disk"
+
+<list_item> "A bundling option"
+
+<normal> "Upon submitting the form, the script identified by that path is passed to @@for_each (procedure)|$$for_each$@ for iteration over a given combination of sets."
+
+<normal> "How the selected objects are mapped to sets of objects that $$for_each$ can understand is specified via the bundling options:"
+
+<list_item> "##Don't bundle#"
+
+<definition> "The script should do no bundling, and iterate through the selected objects in the Objects list as they are, from top to bottom, one at a time."
+
+<list_item> "##Per type#"
+
+<definition> "The script generates as many sets of objects as different types of objects are selected, and use those sets to iterate over. This means that the number of iterations will be equal to the number of objects of the type that occupies most of the current selection."
+
+<list_item> "##Use sets#"
+
+<definition> "The script does no automatic bundling. Instead it considers that the selected objects are already @@Defining sets|definitions of sets@. If a non-default order of elements is needed, this is the way to do it: by manually re-ordering the set of objects / files and running it with the ""use sets"" option."

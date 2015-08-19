@@ -1,0 +1,14 @@
+ManPagesTextFile
+"Defining sets" "jjatria" 20150818 0
+
+<entry> "Sets"
+
+<intro> "The iteration provided by $for_each (and by extension by $view_each) works on sets of objects. In the simplest case, this would be a single set made up of a number of selected objects from the Object list. Sets made up from objects that exist in the Object list are represented by %%selection tables% as implemented by the $selection plugin."
+
+<normal> "A set can also be made up from objects in disk, in which case they are represented by Strings objects, in which each string contains %%the full path% to the specific file to be opened. These Strings with full paths can be created with the ##Create Strings as file list (full path)...# command from the ##$strutils# plugin."
+
+<entry> "Looping"
+
+<normal> "During iteration, one object from each of the appropriate sets will be selected and become the active selection. This means that, with a single set of 20 Sound objects, the iterator will loop 20 times, once with each Sound selected. Similarly, if the iterator is called on a set of 10 Sound objects and 10 TextGrid objects, then each execution loop will have one Sound and one TextGrid object selected."
+
+<normal> "Objects are taken sequentially from each set, so that the first time the iterator loops, the first object from each set is selected, and so on. If the sets are of unequal length, then the shorter set will loop over until all the elements of the longest set have been iterated over at least once."

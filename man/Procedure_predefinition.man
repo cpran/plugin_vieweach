@@ -1,0 +1,56 @@
+ManPagesTextFile
+"Procedure predefinition" "jjatria" 20150818 0
+
+<entry> "The general idea"
+
+<normal> "When writing extensible Praat scripts, it is useful to be able to specify what code will be run for a specific operation at runtime (after you've started the script). Depending on the context, these can be called ""hooks"" or ""callbacks"", but their difference is not important here."
+
+<normal> "In simple words, both cases refer to named pieces of code that are called at specific points during the execution of a larger process. By redefining the contents of those pieces of code the behaviour of the larger process can also be manipulated."
+
+<normal> "One common example of this principle is found in JavaScript, which implements the $onLoad function which is called when elements are loaded on a webpage. By default, this function is empty, meaning that the browser should do nothing when the element is loaded, but this behaviour can be changed to have the browser do all sorts of things."
+
+<normal> "Packages in LaTeX also commonly implement these so that you can specify what should happen at the beginning or end of a specific environment, or every time a new page is created, etc."
+
+<entry> "How it would work in Praat"
+
+<normal> "A simple version of this is implemented in the ##Praat Vocal Toolkit#, that uses a commonly named $action procedure that gets defined differently depending on the task at hand. But this requires the procedure to be defined before the larger process can run."
+
+<normal> "An alternative is to use the deprecated variable interpolation, with a variable holding the name of the correct procedure to run. The procedure call can then interpolate the contents of this variable using single quotes. But this is risky and not particularly safe, which is part of the reason variable interpolation is being phased out."
+
+<normal> "But there is another way. In Praat there is no notion of a ""named piece of code"". The closest we can get to what would in effect be a function is a procedure, but these are more similar to a controlled $goto block rather than code that exists as such in memory. Since the code does not exist in memory as code, it cannot be redefined through the means commonly used for this. But it can be %predefined."
+
+<normal> "When a procedure is called, execution of a Praat script jumps to the beginning of the first procedure of that name and continues from there until reaching the mark of the end of a procedure ($endproc). When that line is reached, execution jumps back up the stack to where it left off."
+
+<normal> "But if %two procedures with the same name are declared, the second procedure is ignored, as in the following example:"
+
+<code> "procedure quit ()"
+<code> "  appendInfoLine: ""Hello World"""
+<code> "endproc"
+<code> ""
+<code> "procedure quit ()"
+<code> "  exitScript: ""Bye!"""
+<code> "endproc"
+<code> ""
+<code> "\@ quit()"
+<code> "\#  Prints ""Hello World"""
+
+<entry> "As used by $vieweach"
+
+<normal> "The iterator procedures in $vieweach are designed to be customizable and extensible, and this customization is done by means of procedure predefinition."
+
+<normal> "Both @@for_each (procedure)|$for_each@ and @@view_each (procedure)|$view_each@ start out by defining a set of empty procedures that will be called at specific points during execution. Since all of them are defined, the user can concentrate on predefining only those they are interested in (an improvement over Praat Vocal Toolkit's method). And since these procedures are empty by default, unless they %are predefined they will have no effect on the overall process."
+
+<normal> "Through carefully manipulating their contents, the user can change what should happen at each step during the iteration. To do this, procedures need to be defined %%before the $include line% that loads in the external procedure definitions. In the next example, the $for_each.action procedure that runs at the core of each iteration in $for_each is redefined to make a copy of the first selected object with the same name as the original object:"
+
+<code> "procedure for_each.action ()"
+<code> "  .name$ = selected\$ (extractWord\$ (selected\$ (1), """"))"
+<code> "  selectObject: selected(1)"
+<code> "  Copy: .name\$ "
+<code> "endproc"
+<code> ""
+<code> "include ../../plugin_vieweach/procedures/for_each.proc"
+<code> "\@ for_each()"
+
+<normal> "By the time $for_each is read, the $for_each.action procedure already exists, which prevents the empty default definition from having an effect."
+
+<normal> "See the full documentation of @@for_each (procedure)|$for_each@ and @@view_each (procedure)|$view_each@ for a full list of the available hooks and what they mean."
