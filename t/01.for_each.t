@@ -1,8 +1,10 @@
 include ../../plugin_testsimple/procedures/test_simple.proc
 
-selection$ = preferencesDirectory$ - "con" + "/plugin_selection/scripts/"
-strutils$  = preferencesDirectory$ - "con" + "/plugin_strutils/scripts/"
-utils$     = preferencesDirectory$ - "con" + "/plugin_utils/scripts/"
+preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
+
+selection$ = preferencesDirectory$ + "/plugin_selection/scripts/"
+strutils$  = preferencesDirectory$ + "/plugin_strutils/scripts/"
+utils$     = preferencesDirectory$ + "/plugin_utils/scripts/"
 
 @no_plan()
 
@@ -87,7 +89,7 @@ endfor
 selectObject: sounds
 appendFileLine: mktemp.return$ + "test.praat", "Copy: selected$(""Sound"")"
 appendFileLine: mktemp.return$ + "test.praat", "Reverse"
-runScript: preferencesDirectory$ - "con" + 
+runScript: preferencesDirectory$ +
   ... "/plugin_vieweach/scripts/for_each.praat",
   ... mktemp.return$ + "test.praat", "Use sets"
 total_iterations = numberOfSelected("Sound")

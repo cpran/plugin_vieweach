@@ -28,6 +28,8 @@ include ../../plugin_utils/procedures/check_directory.proc
 include ../../plugin_strutils/procedures/file_list_full_path.proc
 include ../../plugin_strutils/procedures/extract_strings.proc
 
+preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
+
 form View each (from disk)...
   sentence Read_from
   sentence Filename_regex (wav|TextGrid)$
@@ -45,13 +47,13 @@ files = extractStrings.id
 
 total_files = Get number of strings
 
-runScript: preferencesDirectory$ - "con" +
+runScript: preferencesDirectory$ +
   ... "/plugin_strutils/scripts/extract_strings.praat", "wav$"
 sounds = selected("Strings")
 total_sounds = Get number of strings
 
 selectObject: files
-runScript: preferencesDirectory$ - "con" +
+runScript: preferencesDirectory$ +
   ... "/plugin_strutils/scripts/extract_strings.praat", "TextGrid$"
 textgrids = selected("Strings")
 total_textgrids = Get number of strings

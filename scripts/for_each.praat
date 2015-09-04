@@ -1,5 +1,7 @@
 include ../../plugin_utils/procedures/check_filename.proc
 
+preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
+
 form Execute for each...
   sentence Script_path 
   optionmenu Bundle: 1
@@ -8,7 +10,7 @@ form Execute for each...
     option Use sets
 endform
 
-selection$ = preferencesDirectory$ - "con" + "/plugin_selection/scripts/"
+selection$ = preferencesDirectory$ + "/plugin_selection/scripts/"
 
 @checkFilename: script_path$, "Select script to execute..."
 action$ = checkFilename.name$
