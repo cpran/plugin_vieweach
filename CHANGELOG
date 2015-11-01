@@ -1,35 +1,37 @@
-- v0.0.16
+- v0.0.17:
+  - Added support for sets of directories
+- v0.0.16:
   - More robust preferences directory normalisation cross-platform
   - Added this changelog
   - Iterator script no longer crashes if action script not readable
-- v0.0.15
+- v0.0.15:
   - Added internal Praat documentation as manpages
-- v0.0.14
+- v0.0.14:
   - More predictable include paths throughout
-- v0.0.13
+- v0.0.13:
   - Reverted workaround from 0.0.12, no longer a bug
-- v0.0.12
+- v0.0.12:
   - Fixed a bug with the Close command in the Mac version
-- v0.0.11
+- v0.0.11:
   - Added clean_exit() hook to interrupt iteration safely
-- v0.0.10
+- v0.0.10:
   - Editor calls use strings instead of IDs, for better portability
-- v0.0.9
+- v0.0.9:
   - Improved portability of calls to preferences directory
-- v0.0.8
+- v0.0.8:
   - Inclusions in setup now use nocheck
   - (Development) Fixed constant integration support
-- v0.0.7
+- v0.0.7:
   - Improved support for renaming objects mid-iteration
-- v0.0.6
+- v0.0.6:
   - Simpler internal variable names and interface
-- v0.0.5
+- v0.0.5:
   - Selection ni iterator is now handled by separate procedure
-- v0.0.4
+- v0.0.4:
   - Added bundling options to iterating script
   - Improved support for multiple levels of inclusion
   - Improved and extended hook support
-- v0.0.3
+- v0.0.3:
   - Iterator script in setup
   - Added automatic tests
   - Minor fixes to editor detection
