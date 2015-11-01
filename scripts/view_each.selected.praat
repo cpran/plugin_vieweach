@@ -1,27 +1,24 @@
 # View each selected object, pairing Sound and TextGrid objects
 # in turn if available
 #
-# The script allows for easy navigation between selected objects,
-# which is particularly useful when comparing specific features
-# in each of them. If both TextGrid and Sound objects have been
-# selected, they will be paired by name and viewed in unison.
+# This script is part of the vieweach CPrAN plugin for Praat.
+# The latest version is available through CPrAN or at
+# <http://cpran.net/plugins/vieweach>
 #
-# Pairing is done by @foreach(), which takes objects representing
-# sets of items and performs actions for corresponding objects in
-# each set. If the number of items in each set (ie. Sound and
-# TextGrid objects) is different, then the shorter list will loop
-# as many times as necessary to provide an entry for the longer list.
+# The vieweach plugin is free software: you can redistribute it
+# and/or modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
 #
-# Written by Jose J. Atria (October 14, 2012)
-# Last revision: May 29, 2015)
+# The vieweach plugin is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+# of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
 #
-# This script is free software: you can redistribute it and/or
-# modify it under the terms of the GNU General Public License as
-# published by the Free Software Foundation, either version 3 of
-# the License, or (at your option) any later version.
+# You should have received a copy of the GNU General Public License
+# along with vieweach. If not, see <http://www.gnu.org/licenses/>.
 #
-# A copy of the GNU General Public License is available at
-# <http://www.gnu.org/licenses/>.
+# Copyright 2012-2015 Jose Joaquin Atria
 
 include ../../plugin_vieweach/procedures/view_each.proc
 
