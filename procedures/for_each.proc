@@ -21,24 +21,39 @@ include ../../plugin_selection/procedures/selection.proc
 
 preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
 
+#
+# Hooks
+#
+
+# Called as the last thing that happens before entering the main loop
 procedure for_each.before_iteration ()
 endproc
 
+# Called after the iteration has started, after the index of the current
+# iteration has been stored in for_each.item
 procedure for_each.at_begin_iteration ()
 endproc
 
+# Main action procedure
+# Called once per iteration, this holds the entire iteration logic
 procedure for_each.action ()
 endproc
 
+# Called as the last thing before the new iteration index is calculated
+# at the end of the main loop. This is the last chance to chance the value of
+# for_ecah.next to alter the next value of for_each.index
 procedure for_each.at_end_iteration ()
 endproc
 
+# Called as the last thing before the selection table with the sets is removed
 procedure for_each.finally ()
   selectObject: for_each.sets
   runScript: for_each.selection_scripts$ +
     ... "restore_selection.praat"
 endproc
 
+# Main procedure
+#
 procedure for_each ()
   .selection_scripts$ = preferencesDirectory$ + "/plugin_selection/scripts/"
 
@@ -49,6 +64,7 @@ procedure for_each ()
     .sets = selected("Table")
     Rename: "foreach_sets"
 
+    # Calculate the index number of the last iteration
     .max_items = 0
     for .set to .total_sets
       selectObject: Object_'.sets'[.set, "id"]
@@ -60,8 +76,10 @@ procedure for_each ()
     .last = .max_items
     .total_items = .last       ; For backwards compatibility
 
+    # Clear selection
     nocheck selectObject: undefined
 
+    # Set initial value for index
     if !variableExists("for_each.start_from")
       .start_from = 1
     endif
@@ -71,10 +89,14 @@ procedure for_each ()
     .next = 1
 
     @for_each.before_iteration()
+    # Iterate
     while .current > 0 and .current <= .total_items
       .item = .current         ; For backwards compatibility
       @for_each.at_begin_iteration()
 
+      # Make two empty selection tables to hold the selection of the current
+      # iteration, and any newly created objects that need to be removed at the
+      # end of the current iteration
       @createEmptySelectionTable()
       .selection = createEmptySelectionTable.table
       selectObject: .selection
@@ -85,13 +107,17 @@ procedure for_each ()
       selectObject: .remove
       Rename: "foreach_remove"
 
+      # Populate the selection table for the current selection
       @for_each._select()
 
       selectObject: .selection
       runScript: .selection_scripts$ + "restore_selection.praat"
 
+      # Perform the main action
       @for_each.action()
 
+
+      # Remove any temporary objects as well as the selection tables
       selectObject: .remove
       runScript: .selection_scripts$ + "restore_selection.praat"
       nocheck Remove
@@ -99,6 +125,11 @@ procedure for_each ()
 
       @for_each.at_end_iteration()
 
+      # Specify the value of the next index. If predefining this procedure,
+      # setting an appropriate value for this variable is essential.
+      #  1 = Move to next iteration
+      # -1 = Move to previous iteration
+      #  0 = Stop iteration
       if !.next
         .current += .last
       else
@@ -108,12 +139,18 @@ procedure for_each ()
     endwhile
 
     @for_each.finally()
+    # Remove the final selection table, holding the IDs of the initial sets
     removeObject: .sets
 
   endif
 endproc
 
+# Make the selection for the appropriate for the current iteration
+# The selection will be stored in for_each.selection
 procedure for_each._select ()
+  # One current object needs to be selected per set
+  # Sets are either Tables (with objects in the Objects list) or Strings
+  # (pointing to the file system)
   for .s to for_each.total_sets
     .set = Object_'for_each.sets'[.s, "id"]
     .type$ = Object_'for_each.sets'$[.s, "type"]
@@ -121,7 +158,9 @@ procedure for_each._select ()
     .items = do("Get number of " +
       ... if .type$ = "Table" then "rows" else "strings" fi)
 
+    # Make sure sets can be of variable length
     .i = ((for_each.current - 1) mod .items) + 1
+
     if .type$ = "Table"
       .id = Object_'.set'[.i, "id"]
     else
@@ -129,12 +168,17 @@ procedure for_each._select ()
       .filename$ = Get string: .i
       .id = Read from file: .filename$
 
+      # IDs of new objects are saved for later removal
       @addToSelectionTable: for_each.remove, .id
     endif
+    # for_each.selection holds the selection for the current iteration
     @addToSelectionTable: for_each.selection, .id
   endfor
 endproc
 
+# Cleanly interrupt the iterator
+# Make sure to remove all the temporary objects that are active during
+# iteration.
 procedure for_each.clean_exit (.message$)
   nocheck removeObject: for_each.sets
   nocheck removeObject: for_each.selection
