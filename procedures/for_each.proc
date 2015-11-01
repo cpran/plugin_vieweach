@@ -165,8 +165,24 @@ procedure for_each._select ()
       .id = Object_'.set'[.i, "id"]
     else
       selectObject: .set
-      .filename$ = Get string: .i
-      .id = Read from file: .filename$
+      .name$ = Get string: .i
+      # If string looks like name of a directory, do not try to open as file
+      # Instead create a Strings with the list of files in the directory
+      if right$(.name$) == "/" or right$(.name$) == "\"
+        runScript: preferencesDirectory$ + "/plugin_strutils/scripts/" +
+          ... "directory_list_full_path.praat", .name$, .name$, "*", "no"
+        .dirs = selected("Strings")
+        runScript: preferencesDirectory$ + "/plugin_strutils/scripts/" +
+          ... "file_list_full_path.praat", .name$, .name$, "*", "no"
+        .files = selected("Strings")
+        selectObject: .dirs, .files
+        .id = Append
+        .n$ = replace_regex$(.name$, "\\", "/", 0)
+        Rename: replace_regex$(.n$, ".*/([^/]+)/", "\1", 0)
+        removeObject: .dirs, .files
+      else
+        .id = Read from file: .name$
+      endif
 
       # IDs of new objects are saved for later removal
       @addToSelectionTable: for_each.remove, .id
