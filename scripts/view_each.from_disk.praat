@@ -40,7 +40,7 @@ path$ = checkDirectory.name$
 @fileListFullPath: "files", path$, "*", 0
 files = fileListFullPath.id
 
-@extractStrings: filename_regex$
+@extractStrings: filename_regex$, 1
 removeObject: files
 files = extractStrings.id
 
