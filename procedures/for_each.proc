@@ -17,6 +17,10 @@
 #
 # Copyright 2015 Jose Joaquin Atria
 
+if !variableExists("selection.restore_nocheck")
+  selection.restore_nocheck = 0
+endif
+
 include ../../plugin_selection/procedures/selection.proc
 
 preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
@@ -116,7 +120,6 @@ procedure for_each ()
       # Perform the main action
       @for_each.action()
 
-
       # Remove any temporary objects as well as the selection tables
       selectObject: .remove
       runScript: .selection_scripts$ + "restore_selection.praat"
@@ -181,7 +184,11 @@ procedure for_each._select ()
         Rename: replace_regex$(.n$, ".*/([^/]+)/", "\1", 0)
         removeObject: .dirs, .files
       else
-        .id = Read from file: .name$
+        if selection.restore_nocheck
+          .id = nocheck Read from file: .name$
+        else
+          .id = Read from file: .name$
+        endif
       endif
 
       # IDs of new objects are saved for later removal
