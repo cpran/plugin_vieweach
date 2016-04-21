@@ -20,13 +20,14 @@
 #
 # Copyright 2012-2015 Jose Joaquin Atria
 
-
 include ../../plugin_vieweach/procedures/view_each.proc
 include ../../plugin_utils/procedures/check_directory.proc
 include ../../plugin_strutils/procedures/file_list_full_path.proc
 include ../../plugin_strutils/procedures/extract_strings.proc
 
 preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
+
+strutils$ = preferencesDirectory$ + "/plugin_strutils/scripts/"
 
 form View each (from disk)...
   sentence Read_from
@@ -45,14 +46,12 @@ files = extractStrings.id
 
 total_files = Get number of strings
 
-runScript: preferencesDirectory$ +
-  ... "/plugin_strutils/scripts/extract_strings.praat", "wav$"
+runScript: strutils$ + "extract_strings.praat", "wav$", "matches"
 sounds = selected("Strings")
 total_sounds = Get number of strings
 
 selectObject: files
-runScript: preferencesDirectory$ +
-  ... "/plugin_strutils/scripts/extract_strings.praat", "TextGrid$"
+runScript: strutils$ + "extract_strings.praat", "TextGrid$", "matches"
 textgrids = selected("Strings")
 total_textgrids = Get number of strings
 
