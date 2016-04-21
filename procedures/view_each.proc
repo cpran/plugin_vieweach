@@ -56,6 +56,10 @@ procedure view_each.clean_exit: .message$
 endproc
 
 procedure view_each.pause ()
+  if !variableExists("view_each.name$")
+    view_each.name$ = string$(undefined)
+  endif
+
   beginPause: "Viewing " + view_each.name$ + " " +  "(" +
       ... string$(for_each.item) + " of " +
       ... string$(for_each.total_items) + ")"
