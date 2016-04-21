@@ -106,18 +106,19 @@ procedure for_each.action ()
   if numberOfSelected()
     @has_editor()
     if has_editor.editor
+      view_each.editor$ = has_editor.editor$
 
       # Hook called before editor is opened
       @view_each.before_editor()
 
       do(has_editor.command$)
-      editor: has_editor.editor$
+      editor: view_each.editor$
         @view_each.at_begin_editor()
       endeditor
 
       @view_each.pause()
 
-      nocheck editor: has_editor.editor$
+      nocheck editor: view_each.editor$
         # Hook within editor, after the pause
         @in_editor()
         if in_editor.return != undefined and in_editor.return
