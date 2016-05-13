@@ -1,4 +1,4 @@
-include ../../plugin_testsimple/procedures/more.proc
+include ../../plugin_tap/procedures/more.proc
 
 selection$ = preferencesDirectory$ + "/plugin_selection/scripts/"
 strutils$  = preferencesDirectory$ + "/plugin_strutils/scripts/"
