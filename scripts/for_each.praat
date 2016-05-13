@@ -44,6 +44,7 @@ if !fileReadable(action$)
 endif
 
 runScript: selection$ + "save_selection.praat"
+Rename: "foreach_iterator_sets"
 selection = selected("Table")
 
 if bundle$ = "Don't bundle"
@@ -80,6 +81,8 @@ endif
 procedure for_each.before_iteration ()
   @createEmptySelectionTable()
   foreach.final_selection = createEmptySelectionTable.table
+  selectObject: foreach.final_selection
+  Rename: "foreach_final_selection"
 endproc
 
 procedure for_each.action ()
