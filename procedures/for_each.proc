@@ -21,9 +21,10 @@ if !variableExists("selection.restore_nocheck")
   selection.restore_nocheck = 0
 endif
 
-include ../../plugin_selection/procedures/selection.proc
+procedure trace ()
+endproc
 
-preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
+include ../../plugin_selection/procedures/selection.proc
 
 #
 # Hooks
@@ -92,10 +93,12 @@ procedure for_each ()
     .item = .current           ; For backwards compatibility
     .next = 1
 
+    @trace: "For each: before iteration"
     @for_each.before_iteration()
     # Iterate
     while .current > 0 and .current <= .total_items
       .item = .current         ; For backwards compatibility
+      @trace: "For each: begin iteration"
       @for_each.at_begin_iteration()
 
       # Make two empty selection tables to hold the selection of the current
@@ -112,12 +115,14 @@ procedure for_each ()
       Rename: "foreach_remove"
 
       # Populate the selection table for the current selection
+      @trace: "For each: select"
       @for_each._select()
 
       selectObject: .selection
       runScript: .selection_scripts$ + "restore_selection.praat"
 
       # Perform the main action
+      @trace: "For each: action"
       @for_each.action()
 
       # Remove any temporary objects as well as the selection tables
@@ -126,6 +131,7 @@ procedure for_each ()
       nocheck Remove
       removeObject: .selection, .remove
 
+      @trace: "For each: end iteration"
       @for_each.at_end_iteration()
 
       # Specify the value of the next index. If predefining this procedure,
@@ -141,6 +147,7 @@ procedure for_each ()
 
     endwhile
 
+    @trace: "For each: finally"
     @for_each.finally()
     # Remove the final selection table, holding the IDs of the initial sets
     removeObject: .sets

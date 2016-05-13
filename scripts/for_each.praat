@@ -19,7 +19,11 @@
 
 include ../../plugin_utils/procedures/check_filename.proc
 
-preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
+## Uncomment to enable tracing
+# include ../../plugin_utils/procedures/trace.proc
+# trace.enable = 1
+# trace.cleared = 1
+# trace.output$ = ""
 
 form Execute for each...
   sentence Script_path
@@ -30,6 +34,7 @@ form Execute for each...
 endform
 
 selection$ = preferencesDirectory$ + "/plugin_selection/scripts/"
+selection.restore_nocheck = 1
 
 @checkFilename: script_path$, "Select script to execute..."
 action$ = checkFilename.name$
@@ -78,7 +83,9 @@ procedure for_each.before_iteration ()
 endproc
 
 procedure for_each.action ()
+  @trace: "For each: Execute " + action$
   runScript: action$
+  @trace: "For each: adding to final selection"
   for .i to numberOfSelected()
     @addToSelectionTable: foreach.final_selection, selected(.i)
   endfor

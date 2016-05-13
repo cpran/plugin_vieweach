@@ -20,15 +20,19 @@
 # Copyright 2012-2015 Jose Joaquin Atria
 
 procedure view_each.before_iteration ()
+  @trace: "View each: before iteration"
 endproc
 
 procedure view_each.at_begin_iteration ()
+  @trace: "View each: begin iteration"
 endproc
 
 procedure view_each.before_editor ()
+  @trace: "View each: before editor"
 endproc
 
 procedure view_each.at_begin_editor ()
+  @trace: "View each: begin editor"
   .editor$ = Editor info
   view_each.name$ = extractLine$(.editor$, "Editor name: ")
   view_each.name$ = mid$(view_each.name$,
@@ -36,10 +40,12 @@ procedure view_each.at_begin_editor ()
 endproc
 
 procedure view_each.at_end_editor ()
+  @trace: "View each: end editor"
   Close
 endproc
 
 procedure view_each.after_editor ()
+  @trace: "View each: after editor"
 endproc
 
 procedure view_each.no_editor ()
@@ -109,28 +115,35 @@ procedure for_each.action ()
       view_each.editor$ = has_editor.editor$
 
       # Hook called before editor is opened
+      @trace: "View each: before editor"
       @view_each.before_editor()
 
       do(has_editor.command$)
       editor: view_each.editor$
+        @trace: "View each: begin editor"
         @view_each.at_begin_editor()
       endeditor
 
+      @trace: "View each: pause"
       @view_each.pause()
 
       nocheck editor: view_each.editor$
         # Hook within editor, after the pause
+        @trace: "View each: in editor"
         @in_editor()
         if in_editor.return != undefined and in_editor.return
+          @trace: "View each: end editor"
           @view_each.at_end_editor()
         endif
       nocheck endeditor
 
       # Hook called after at_end_editor,
       # which might not be in an editor
+      @trace: "View each: after editor"
       @view_each.after_editor()
     else
       # Hook called when no editor is available
+      @trace: "View each: no editor"
       @view_each.no_editor()
     endif
   endif
