@@ -3,7 +3,7 @@ variables:
 
 before_script:
   - pushd ..
-  - rm -rf plugin_{testsimple,utils,strutils,selection}
+  - rm -rf plugin_{tap,utils,strutils,selection}
   - git clone ${CPRAN_GIT}tap.git
   - git clone ${CPRAN_GIT}utils.git
   - git clone ${CPRAN_GIT}strutils.git
