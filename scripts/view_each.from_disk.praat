@@ -25,8 +25,6 @@ include ../../plugin_utils/procedures/check_directory.proc
 include ../../plugin_strutils/procedures/file_list_full_path.proc
 include ../../plugin_strutils/procedures/extract_strings.proc
 
-preferencesDirectory$ = replace_regex$(preferencesDirectory$, "(con)?(\.(EXE|exe))?$", "", 0)
-
 strutils$ = preferencesDirectory$ + "/plugin_strutils/scripts/"
 
 form View each (from disk)...
@@ -40,18 +38,18 @@ path$ = checkDirectory.name$
 @fileListFullPath: "files", path$, "*", 0
 files = fileListFullPath.id
 
-@extractStrings: filename_regex$, 1
+@extractStrings_regex: filename_regex$, 1
 removeObject: files
-files = extractStrings.id
+files = extractStrings_regex.id
 
 total_files = Get number of strings
 
-runScript: strutils$ + "extract_strings.praat", "wav$", "matches"
+runScript: strutils$ + "extract_strings.praat", "wav$", "matches", 1
 sounds = selected("Strings")
 total_sounds = Get number of strings
 
 selectObject: files
-runScript: strutils$ + "extract_strings.praat", "TextGrid$", "matches"
+runScript: strutils$ + "extract_strings.praat", "TextGrid$", "matches", 1
 textgrids = selected("Strings")
 total_textgrids = Get number of strings
 
