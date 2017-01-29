@@ -15,9 +15,6 @@
 
 ## Static commands:
 
-# Uncomment next line to run tests at startup
-# runScript: "run_tests.praat"
-
 # Base menu
 nocheck Add menu command: "Objects", "Praat", "vieweach", "CPrAN", 1, ""
 nocheck Add menu command: "Objects", "Help",  "vieweach", "CPrAN", 1, "man/open.praat"
