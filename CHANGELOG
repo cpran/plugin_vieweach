@@ -1,3 +1,13 @@
+- v0.0.18:
+  - New:
+    - Added a script to "view each" from selected sets
+  - Fix:
+    - Improved stability of @view_each when predefining at_begin_editor
+      hook
+    - for_each now obeys settings in restore_nocheck (defaults to false)
+  - Changed:
+    - Added tests, using tap plugin
+    - Several other minor stability fixes
 - v0.0.17:
   - Added support for sets of directories
 - v0.0.16:
