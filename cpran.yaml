@@ -1,7 +1,7 @@
 ---
 Plugin: vieweach
 Homepage: http://cpran.net/plugins/vieweach
-Version: 0.0.17
+Version: 0.0.18
 Maintainer: José Joaquín Atria <jjatria@gmail.com>
 Depends:
   praat: 5.4.16+
