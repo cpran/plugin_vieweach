@@ -49,5 +49,6 @@ if paired
   removeObject: sounds, textgrids
 endif
 
+selection.restore_nocheck = 1
 @restoreSavedSelection: original_selection
 removeObject: original_selection
