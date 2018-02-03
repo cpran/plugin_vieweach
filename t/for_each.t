@@ -8,7 +8,15 @@ utils$     = preferencesDirectory$ + "/plugin_utils/scripts/"
 
 @no_plan()
 
-synth = Create SpeechSynthesizer: "English", "default"
+if praatVersion >= 6036
+    synth_voice$ = "Male1"
+    synth_language$ = "English (Great Britain)"
+else
+    synth_voice$ = "default"
+    synth_language$ = "English"
+endif
+
+synth = Create SpeechSynthesizer: synth_language$, synth_voice$
 To Sound: "This is a long sample sentence for testing", "yes"
 sound = selected("Sound")
 textgrid = selected("TextGrid")
