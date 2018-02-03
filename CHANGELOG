@@ -1,3 +1,8 @@
+- next: # unreleased
+- v0.0.19:
+  - Fix:
+    - Tests pass under Praat 6.0.36+
+    - Improved robustness of view_each.selected with missing objects
 - v0.0.18:
   - New:
     - Added a script to "view each" from selected sets
